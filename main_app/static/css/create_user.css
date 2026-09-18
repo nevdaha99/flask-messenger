@@ -1,0 +1,172 @@
+* {
+  box-sizing: border-box;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: #08091b;
+}
+
+/* Основной контейнер страницы */
+.create-user-container {
+  width: 500px;
+  max-width: 90vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.successfully-create-user-container {
+  width: 500px;
+  max-width: 90vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Логотип */
+.world_it {
+  height: 28px;
+}
+
+/* Заголовок */
+h1 {
+  text-align: center;
+  font-size: 24px;
+
+  font-weight: 700;
+}
+
+/* Форма */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Поля */
+input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #dcdce5;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #08091b;
+  outline: none;
+}
+
+input::placeholder {
+  color: #adb0c2;
+}
+
+input:focus {
+  border-color: #4b9cff;
+}
+
+/* Ошибка */
+.error {
+  color: #e53935;
+  font-size: 14px;
+
+}
+
+/* Кнопка */
+button {
+  width: 100%;
+  height: 36px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #070A1C;
+  color: white;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #17182b;
+}
+
+/* Картинка */
+.image {
+  width: 100%;
+  margin-top: 8px;
+}
+
+h5 {
+  font-size: 14px;
+  font-weight: 400;
+  color: #777783;
+
+}
+
+.login-button {
+  position: absolute;
+  top: 32px;
+  right: 66px;
+  width: 76px;
+  height: 36px;
+  background-color: white;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  color: #08091b;
+  gap: 8px;
+  font-size: 14px;
+  box-shadow: 0 3px 6px #0000000D;
+}
+
+.login-button:hover {
+  background-color: #f7f7f8;
+}
+
+h3 {
+  width: 500px;
+  color: #0F172A;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.email-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  width: 100%;
+  height: 36px;
+  font-weight: 500;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #070A1C;
+  color: white;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/user/create">
+  <button class="login-button">Реєстрація</button>
+</a>
+<div class="login-user-container">
+  <img src="{{url_for('main.static',filename='img/label.png')}}" alt="" class="world_it">
+  <h1>Увійти в обліковий запис</h1>
+  <form method="post">
+    <h5>Введіть вашу електронну пошту</h5>
+    <input type="email" placeholder="name@example.com" required name="email">
+    <h5>Введіть ваш пароль</h5>
+    <input type="password" placeholder="**********" required name="password">
+    <!-- {% if error %} <p class="error">{{ error }}</p> {% endif %} -->
+    <button type="submit">Авторизуватись</button>
+  </form>
+  <img src="{{ url_for('main.static', filename='img/image.png') }}" alt="" class="image">
+</div>
+
+{% endblock %}
+
+{% block links%}
+<link rel="stylesheet" href="{{ url_for('main.static',filename='css/login_user.css')}}">
+{% endblock %}

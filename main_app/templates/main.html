@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="header-chat">
+  <div class="header-left">
+    <img src="{{ url_for('main.static', filename='img/logo.png') }}" alt="" class="logo">
+    <h3>Chat</h3>
+  </div>
+
+  <div class="header-right">
+    <div class="bell-wrapper">
+      <img src="{{ url_for('main.static', filename='img/bell.png') }}" alt="" class="bell">
+      <span class="badge"></span>
+    </div>
+    <img src="{{ url_for('main.static', filename='img/settings.png') }}" alt="" class="settings">
+    <div class="avatar">
+      <img src="{{ url_for('main.static', filename='img/avatar.png') }}" alt="" class="avatar">
+    </div>
+  </div>
+</div>
+
+<div class="left-panel">
+  <div class="search">
+    <img src="{{ url_for('main.static', filename='img/search.png') }}" alt="" class="search-icon">
+    <input type="text" placeholder="Пошук чатів..." class="search-input">
+  </div>
+  <hr class="search-divider">
+  <div class="delete-chat">
+    <h3>Ваш чат</h3>
+    <form action="{{ url_for('main.delete_chat') }}" method="POST">
+      <button type="submit" class="delete-button">
+        <img src="{{ url_for('main.static', filename='img/delete.png') }}" alt="" class="delete-button-icon">
+      </button>
+    </form>
+  </div>
+  {% if not chat %}
+  <div class="add-chat">
+    <button type="button" class="new-chat-btn" onclick="window.location.href='/chat/add'">
+      <span>Новий чат</span>
+      <img src="{{ url_for('main.static', filename='img/plus.svg') }}" alt="" class="plus-icon">
+    </button>
+  </div>
+  <hr class="search-divider">
+  {% endif %}
+  {% if chat %}
+  <div class="user-chat">
+    <div class="chat-item" data-id="{{chat.id}}">
+      <h3 class="chat-name">{{ chat.name }}</h3>
+      <img src="{{ url_for('main.static', filename='img/' + chat.avatar) }}" alt="" class="avatar">
+      <p class="last-message">I just shared the new mockups in Figma</p>
+      <p class="time">15m ago</p>
+    </div>
+  </div>
+  <hr class="search-divider">
+  {% endif %}
+
+  <div class="all-chat">
+    <div class="chat-list">
+      {% for another_chat in all_chat %}
+      {% if another_chat != chat %}
+      <div class="chat-item" data-id="{{another_chat.id}}">
+        <h3 class="chat-name">{{another_chat.name}}</h3>
+        <img src="{{ url_for('main.static', filename='img/' + another_chat.avatar) }}" alt="" class="avatar">
+        <p class="last-message">I just shared the new mockups in Figma</p>
+        <p class="time">15m ago</p>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="right-panel">
+  <div class="users-title">
+    <h3>Користувачі</h3>
+    <img src="{{ url_for('main.static', filename='img/users.png') }}" alt="" class="user-icon">
+    <h6>24 пользователя</h6>
+    <img src="{{ url_for('main.static', filename='img/users.png') }}" alt="" class="user-icon">
+    <h6>8 online</h6>
+  </div>
+  <hr class="users-divider">
+  <div class="user-list">
+  </div>
+  <hr class="users-divider">
+</div>
+
+<div class="general-chat">
+  <div class="general-title">
+    <h3>General Chat</h3>
+  </div>
+  <div class="options">
+    <img src="{{ url_for('main.static', filename='img/general_search.png') }}" alt="" class="generel-options">
+    <img src="{{ url_for('main.static', filename='img/more.png') }}" alt="" class="generel-options">
+  </div>
+  <hr class="general-divider">
+  <div id="messages">
+  </div>
+  <hr class="input-divider">
+  <div class="chat-input-container">
+    <button type="button" class="emoji-button">
+      <img src="{{ url_for('main.static', filename='img/smile.png') }}" alt="">
+    </button>
+
+    <input type="text" id="message-input" placeholder="Введіть повідомлення..." />
+
+    <button type="button" id="send-button" class="send-button">
+      <img src="{{ url_for('main.static', filename='img/send.png') }}" alt="">
+    </button>
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.3/socket.io.js"></script>
+<script src="{{ url_for('main.static',filename='js/main.js')}}"></script>
+<script>
+  // Flask правильно сгенерирует путь к папке с картинками
+  window.AVATAR_BASE_URL = "{{ url_for('main.static', filename='img/') }}";
+</script>
+{% endblock %}
+{% block links%}
+<link rel="stylesheet" href="{{ url_for('main.static',filename='css/main_chat.css')}}">
+{% endblock %}

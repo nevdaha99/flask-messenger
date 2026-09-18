@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<button class="login-button">Увійти</button>
+<div class="successfully-create-user-container">
+  <img src="{{url_for('main.static',filename='img/label.png')}}" alt="" class="world_it">
+  <h1>Успіх</h1>
+  <h3>Ми надіслали вам електронний лист з магічним посиланням<br>
+    для підтвердження вашого облікового запису.<br>
+    Будь ласка, перевірте свою поштову скриньку та натисніть на<br>
+    посилання.</h3>
+  <a class="email-button" href="https://mail.google.com/" target="_blank">
+    Відкрити електронну пошту
+  </a>
+  <!-- <button>Відкрити електронну пошту</button> -->
+  <img src="{{ url_for('main.static', filename='img/image.png') }}" alt="" class="image">
+</div>
+
+{% endblock %}
+
+{% block links%}
+<link rel="stylesheet" href="{{ url_for('main.static',filename='css/create_user.css')}}">
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<a href="/user/login">
+  <button class="login-button">Увійти</button>
+</a>
+<div class="create-user-container">
+  <img src="{{url_for('main.static',filename='img/label.png')}}" alt="" class="world_it">
+  <h1>Створити обліковий запис</h1>
+  <form method="post">
+    <h5>Введіть вашу електронну пошту нижче, щоб створити обліковий запис</h5>
+    <input type="email" placeholder="name@example.com" required name="email">
+    <h5>Задайте ваш пароль нижче, щоб створити обліковий запис</h5>
+    <input type="password" placeholder="**********" required name="password">
+    <h5>перевірка паролю</h5>
+    <input type="password" placeholder="**********" required name="verify_password">
+    {% if error %} <p class="error">{{ error }}</p> {% endif %}
+    <button type="submit">надіслати код підтвердження</button>
+  </form>
+  <img src="{{ url_for('main.static', filename='img/image.png') }}" alt="" class="image">
+</div>
+
+{% endblock %}
+
+{% block links%}
+<link rel="stylesheet" href="{{ url_for('main.static',filename='css/create_user.css')}}">
+{% endblock %}
