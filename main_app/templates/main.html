@@ -19,97 +19,170 @@
   </div>
 </div>
 
-<div class="left-panel">
-  <div class="search">
-    <img src="{{ url_for('main.static', filename='img/search.png') }}" alt="" class="search-icon">
-    <input type="text" placeholder="Пошук чатів..." class="search-input">
-  </div>
-  <hr class="search-divider">
-  <div class="delete-chat">
-    <h3>Ваш чат</h3>
-    <form action="{{ url_for('main.delete_chat') }}" method="POST">
-      <button type="submit" class="delete-button">
-        <img src="{{ url_for('main.static', filename='img/delete.png') }}" alt="" class="delete-button-icon">
+<main>
+  <div class="left-panel">
+    <div class="search">
+      <img src="{{ url_for('main.static', filename='img/search.png') }}" alt="" class="search-icon">
+      <input type="text" placeholder="Пошук чатів..." class="search-input">
+    </div>
+    <hr class="search-divider">
+    <div class="delete-chat">
+      <h3>Ваш чат</h3>
+      <form action="{{ url_for('main.delete_chat') }}" method="POST">
+        <button type="submit" class="delete-button">
+          <img src="{{ url_for('main.static', filename='img/delete.png') }}" alt="" class="delete-button-icon">
+        </button>
+      </form>
+    </div>
+    {% if not chat %}
+    <div class="add-chat">
+      <button type="button" class="new-chat-btn" onclick="window.location.href='/chat/add'">
+        <span>Новий чат</span>
+        <img src="{{ url_for('main.static', filename='img/plus.svg') }}" alt="" class="plus-icon">
       </button>
-    </form>
-  </div>
-  {% if not chat %}
-  <div class="add-chat">
-    <button type="button" class="new-chat-btn" onclick="window.location.href='/chat/add'">
-      <span>Новий чат</span>
-      <img src="{{ url_for('main.static', filename='img/plus.svg') }}" alt="" class="plus-icon">
-    </button>
-  </div>
-  <hr class="search-divider">
-  {% endif %}
-  {% if chat %}
-  <div class="user-chat">
-    <div class="chat-item" data-id="{{chat.id}}">
-      <h3 class="chat-name">{{ chat.name }}</h3>
-      <img src="{{ url_for('main.static', filename='img/' + chat.avatar) }}" alt="" class="avatar">
-      <p class="last-message">I just shared the new mockups in Figma</p>
-      <p class="time">15m ago</p>
     </div>
-  </div>
-  <hr class="search-divider">
-  {% endif %}
+    <hr class="search-divider">
+    {% endif %}
+    {% if chat %}
+    <div class="user-chat">
+      <div class="chat-item" data-id="{{chat.id}}" data-name="{{ chat.name }}">
+        <h3 class="chat-name">{{ chat.name }}</h3>
+        <img src="{{ url_for('main.static', filename='img/' + chat.avatar) }}" alt="" class="avatar">
+        <p class="last-message">{{chat.get_last_message().text}}</p>
+        <div class="chat-meta">
+          <p class="time">{{chat.get_last_message_time()}}</p>
+          {% set unread = chat.get_unread_count(current_user.id) %}
+          {% set unread_text = '99+' if unread > 99 else unread %}
 
-  <div class="all-chat">
-    <div class="chat-list">
-      {% for another_chat in all_chat %}
-      {% if another_chat != chat %}
-      <div class="chat-item" data-id="{{another_chat.id}}">
-        <h3 class="chat-name">{{another_chat.name}}</h3>
-        <img src="{{ url_for('main.static', filename='img/' + another_chat.avatar) }}" alt="" class="avatar">
-        <p class="last-message">I just shared the new mockups in Figma</p>
-        <p class="time">15m ago</p>
+          <span class="unread-badge {% if unread == 0 %}hidden{% endif %}">
+            {{ unread_text }}
+          </span>
+        </div>
       </div>
-      {% endif %}
-      {% endfor %}
+    </div>
+    <hr class="search-divider">
+    {% endif %}
+
+    <div class="all-chat">
+      <div class="chat-list">
+        {% for another_chat in all_chat %}
+        {% if another_chat != chat %}
+        <div class="chat-item" data-id="{{another_chat.id}}" data-name="{{ another_chat.name }}">
+          <h3 class="chat-name">{{another_chat.name}}</h3>
+          <img src="{{ url_for('main.static', filename='img/' + another_chat.avatar) }}" alt="" class="avatar">
+          <p class="last-message">{{another_chat.get_last_message().text}}</p>
+          <div class="chat-meta">
+            <p class="time">{{another_chat.get_last_message_time()}}</p>
+            {% set unread = another_chat.get_unread_count(current_user.id) %}
+            {% set unread_text = '99+' if unread > 99 else unread %}
+
+            <span class="unread-badge {% if unread == 0 %}hidden{% endif %}">
+              {{ unread_text }}
+            </span>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
     </div>
   </div>
-</div>
 
-<div class="right-panel">
-  <div class="users-title">
-    <h3>Користувачі</h3>
-    <img src="{{ url_for('main.static', filename='img/users.png') }}" alt="" class="user-icon">
-    <h6>24 пользователя</h6>
-    <img src="{{ url_for('main.static', filename='img/users.png') }}" alt="" class="user-icon">
-    <h6>8 online</h6>
-  </div>
-  <hr class="users-divider">
-  <div class="user-list">
-  </div>
-  <hr class="users-divider">
-</div>
-
-<div class="general-chat">
-  <div class="general-title">
-    <h3>General Chat</h3>
-  </div>
-  <div class="options">
-    <img src="{{ url_for('main.static', filename='img/general_search.png') }}" alt="" class="generel-options">
-    <img src="{{ url_for('main.static', filename='img/more.png') }}" alt="" class="generel-options">
-  </div>
-  <hr class="general-divider">
-  <div id="messages">
-  </div>
-  <hr class="input-divider">
-  <div class="chat-input-container">
-    <button type="button" class="emoji-button">
-      <img src="{{ url_for('main.static', filename='img/smile.png') }}" alt="">
-    </button>
-
-    <input type="text" id="message-input" placeholder="Введіть повідомлення..." />
-
-    <button type="button" id="send-button" class="send-button">
-      <img src="{{ url_for('main.static', filename='img/send.png') }}" alt="">
-    </button>
+  <div class="general-chat">
+    <div class="general-header">
+      <div class="general-title">
+        <img src="{{ url_for('main.static', filename='img/exit_chat.png') }}" alt="" class="exit-icon">
+        <h3 id="current-chat-title">General Chat</h3>
+      </div>
+      <div class="options">
+        <img src="{{ url_for('main.static', filename='img/general_search.png') }}" alt="" class="generel-options">
+        <img src="{{ url_for('main.static', filename='img/more.png') }}" alt="" class="generel-options">
+      </div>
+    </div>
+    <div id="messages">
+    </div>
+    <div class="chat-input-container hidden" id="chatInputContainer">
+      <button type="button" class="emoji-button">
+        <img src="{{ url_for('main.static', filename='img/smile.png') }}" alt="">
+      </button>
+      <input type="text" id="message-input" placeholder="Введіть повідомлення..." />
+      <button type="button" id="send-button" class="send-button">
+        <img src="{{ url_for('main.static', filename='img/send.png') }}" alt="">
+      </button>
+    </div>
   </div>
 
+  <div class="right-panel">
+    <div class="users-title">
+      <h3>Користувачі</h3>
+      <div class="users-stats">
+        <span class="stat-item">
+          <img src="{{ url_for('main.static', filename='img/users.png') }}" alt="" class="user-icon">
+          <h6>{{ all_users|length }} пользователя</h6>
+        </span>
+        <span class="stat-item">
+          <img src="{{ url_for('main.static', filename='img/users.png') }}" alt="" class="user-icon">
+          <h6 id="online-count">{{ all_online_users|length }} online</h6>
+        </span>
+      </div>
+    </div>
 
-</div>
+    <hr class="users-divider">
+
+    <div class="user-online">
+      {% if all_users %}
+      {% for user in all_users %}
+      {% set display_name = user.name if user.name else (user.email.split('@')[0] if user.email else 'User') %}
+      {% set is_online = user.id in all_online_users %}
+      <div class="user-item" data-user-id="{{ user.id }}">
+        <div class="avatar-wrapper">
+          <div class="avatar-letter" data-name="{{ display_name }}">
+            {{ display_name[0] | upper }}
+          </div>
+
+          <span class="status-dot {% if is_online %}online{% else %}offline{% endif %}"></span>
+        </div>
+        <span class="user-name">{{ display_name }}</span>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+
+
+    <div class="user-profile-card" id="userProfileCard">
+      <div class="profile-card-header">
+        <button type="button" class="close-card-btn" id="closeProfileCard">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 1L1 13M1 1L13 13" stroke="#111827" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="profile-card-content">
+        <div class="avatar-wrapper large">
+          <img src="" alt="" class="avatar" id="profileAvatar">
+          <span class="status-dot" id="profileStatusDot"></span>
+        </div>
+
+        <h3 class="profile-name" id="profileName">Имя Фамилия</h3>
+        <span class="profile-username" id="profileUsername">@username</span>
+
+        <div class="profile-info-section">
+          <div class="info-group">
+            <span class="info-label">Дата народження</span>
+            <span class="info-value" id="profileBirthday">Не вказано</span>
+          </div>
+          <div class="info-group">
+            <span class="info-label">Стать</span>
+            <span class="info-value" id="profileGender">Не вказано</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
 
 
 
@@ -119,10 +192,10 @@
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.3/socket.io.js"></script>
 <script src="{{ url_for('main.static',filename='js/main.js')}}"></script>
 <script>
-  // Flask правильно сгенерирует путь к папке с картинками
   window.AVATAR_BASE_URL = "{{ url_for('main.static', filename='img/') }}";
 </script>
 {% endblock %}
 {% block links%}
 <link rel="stylesheet" href="{{ url_for('main.static',filename='css/main_chat.css')}}">
+<link rel="stylesheet" href="{{ url_for('main.static',filename='css/chat_mobile.css')}}">
 {% endblock %}

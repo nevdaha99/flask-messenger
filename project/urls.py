@@ -25,3 +25,5 @@ main.add_url_rule("/chat/add", view_func=add_chat, methods=["POST", "GET"])
 main.add_url_rule(
     "/chat/delete", view_func=delete_chat, methods=["POST", "GET"]
 )
+
+main.add_url_rule("/get_messages/", view_func=get_messages)

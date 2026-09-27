@@ -4,9 +4,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from project.db import DATABASE
 from project.login_manager import serializer
-
+from .app import online_users
 from .mail import send_confirm_mail
-from .models import Chat, User
+from .models import Chat, Messages, User
 
 
 def render_create_user():
@@ -37,7 +37,7 @@ def render_create_user():
         token_hash = generate_password_hash(token)
         user.verify_code = token_hash
         DATABASE.session.commit()
-        send_confirm_mail(token)
+        send_confirm_mail(user_email, token)
         return flask.redirect("/user/successfully")
     return flask.render_template("create_user.html")
 
@@ -88,7 +88,15 @@ def render_main():
         return flask.redirect("/user/login")
     chat = flask_login.current_user.chat
     all_chat = Chat.query.all()
-    return flask.render_template("main.html", chat=chat, all_chat=all_chat)
+    all_users = User.query.all()
+    all_online_users = online_users
+    return flask.render_template(
+        "main.html",
+        chat=chat,
+        all_chat=all_chat,
+        all_users=all_users,
+        all_online_users=all_online_users,
+    )
 
 
 def logout_user():
@@ -120,3 +128,29 @@ def delete_chat():
         DATABASE.session.delete(user_chat)
         DATABASE.session.commit()
     return flask.redirect("/")
+
+
+@flask_login.login_required
+def get_messages():
+    chat_id = flask.request.args.get("chat_id")
+    all_messages = Messages.query.filter_by(chat_id=chat_id).all()
+    list_messages = []
+    user = flask_login.current_user
+    for message in all_messages:
+        sender_user = message.sender
+        if user not in message.readers:
+            message.readers.append(user)
+        display_name = (
+            sender_user.email.split("@")[0]
+            if sender_user.email
+            else "Пользователь"
+        )
+        list_messages.append(
+            {
+                "username": display_name,
+                "time": message.date.strftime("%I:%M %p"),
+                "text": message.text,
+            },
+        )
+    DATABASE.session.commit()
+    return flask.jsonify(list_messages)

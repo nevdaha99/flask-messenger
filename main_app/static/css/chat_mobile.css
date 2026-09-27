@@ -1,0 +1,42 @@
+.exit-icon {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+
+
+  .general-chat,
+  .right-panel {
+    display: none;
+    position: static;
+  }
+
+  .left-panel,
+  .general-chat,
+  .right-panel,
+  .chat-item,
+  .user-chat,
+  .all-chat,
+  .chat-list,
+  .delete-chat {
+    width: 100%;
+  }
+
+  .chat-list,
+
+  .user-chat {
+    padding-right: 20px;
+  }
+
+  .delete-chat {
+    padding-right: 40px;
+  }
+
+  .exit-icon {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+}
