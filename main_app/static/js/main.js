@@ -293,8 +293,188 @@ socket.on("online", (listId)=>{
 })
 
 
-document.querySelector(".exit-icon").addEventListener('click', function() {
-  document.querySelector(".left-panel").style.display = "flex"
-  document.querySelector(".general-chat").style.display = "none"
-}
-)
+document.addEventListener('DOMContentLoaded', function() {
+
+  const generalChat = document.querySelector(".general-chat");
+  const rightPanel = document.querySelector(".right-panel");
+  const leftPanel = document.querySelector(".left-panel");
+
+  const newChatModal = document.querySelector("#new-chat-modal");
+  const deleteChatModal = document.querySelector("#delete-chat-modal");
+  const settingsModal = document.querySelector("#settings-modal");
+
+  document.addEventListener('click', function(event) {
+
+    const userListItem = event.target.closest('.user-item');
+    if (userListItem) {
+      event.preventDefault();
+
+      const name = userListItem.getAttribute('data-name') || 'Користувач';
+      const username = userListItem.getAttribute('data-username') || '';
+      const age = userListItem.getAttribute('data-age') || 'Не вказано';
+      const gender = userListItem.getAttribute('data-gender') || 'Не вказано';
+
+      const profileName = document.querySelector('#profileName');
+      const profileUsername = document.querySelector('#profileUsername');
+      const profileBirthday = document.querySelector('#profileBirthday');
+      const profileGender = document.querySelector('#profileGender');
+
+      if (profileName) profileName.textContent = name;
+      if (profileUsername) profileUsername.textContent = username;
+      if (profileBirthday) profileBirthday.textContent = age;
+      if (profileGender) profileGender.textContent = gender;
+
+      return;
+    }
+
+    const saveSettingsBtn = event.target.closest('#settings-modal .btn-submit');
+    if (saveSettingsBtn) {
+      event.preventDefault();
+
+      const name = document.querySelector('#settings-name')?.value.trim() || '';
+      const surname = document.querySelector('#settings-surname')?.value.trim() || '';
+      const username = document.querySelector('#settings-username')?.value.trim() || '';
+      const gender = document.querySelector('#settings-gender')?.value || '';
+      const age = document.querySelector('#settings-age')?.value || '';
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('surname', surname);
+      formData.append('username', username);
+      formData.append('gender', gender);
+      formData.append('age', age);
+
+      fetch('/settings/update', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          settingsModal.classList.add('hidden');
+          window.location.reload();
+        } else {
+          alert('Помилка при збереженні налаштувань');
+        }
+      })
+      .catch(error => {
+        console.error('Помилка:', error);
+      });
+
+      return;
+    }
+
+    // 1. Открытие модального окна "Новий чат"
+    const newChatBtn = event.target.closest('.new-chat-btn');
+    if (newChatBtn) {
+      event.preventDefault();
+      if (newChatModal) {
+        newChatModal.classList.remove('hidden');
+      }
+      return;
+    }
+
+    // 2. Открытие модального окна "Видалити чат" (по клику на иконку корзины)
+    const deleteChatBtn = event.target.closest('.delete-chat-btn');
+    if (deleteChatBtn) {
+      event.preventDefault();
+      if (deleteChatModal) {
+        deleteChatModal.classList.remove('hidden');
+      }
+      return;
+    }
+
+    const settingsBtn = event.target.closest('header img[src*="settings"]') || event.target.closest('.settings-icon') || event.target.closest('header svg');
+    const headerSettingsIcon = event.target.closest('header .options img, header button:nth-last-child(2) img, img[alt*="setting"], .fa-cog');
+
+    const exactSettingsBtn = event.target.closest('.settings');
+
+    if (exactSettingsBtn || event.target.closest('header svg:nth-of-type(1)')) {
+      event.preventDefault();
+      if (settingsModal) settingsModal.classList.remove('hidden');
+      return;
+    }
+
+    // 3. Закрытие модальных окон (по крестику, кнопке "Скасувати" или клику на фон)
+    const isCloseClick = event.target.closest('.close-modal') || event.target.closest('.btn-cancel');
+    const isBackgroundClick = event.target === newChatModal || event.target === deleteChatModal;
+
+    if (isCloseClick || isBackgroundClick) {
+      if (newChatModal) newChatModal.classList.add('hidden');
+      if (deleteChatModal) deleteChatModal.classList.add('hidden');
+      if (settingsModal) settingsModal.classList.add('hidden');
+      return;
+    }
+
+    // 4. Отправка формы создания чата ("Створити")
+    const submitBtn = event.target.closest('.btn-submit');
+    if (submitBtn) {
+      event.preventDefault();
+      const chatInput = document.querySelector('#chat-name-input');
+      const chatName = chatInput ? chatInput.value.trim() : '';
+
+      if (!chatName) {
+        alert('Будь ласка, введіть назву чату');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('chat_name', chatName);
+
+      fetch('/chat/add', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          alert('Помилка при створенні чату');
+        }
+      })
+      .catch(error => console.error('Помилка:', error));
+      return;
+    }
+
+    // 5. Подтверждение удаления чата ("Видалити")
+    const confirmDeleteBtn = event.target.closest('.btn-delete');
+    if (confirmDeleteBtn) {
+      event.preventDefault();
+
+      console.log('Удаляем чат...');
+
+      fetch('/chat/delete', { method: 'POST' })
+        .then(response => {
+          if (response.ok) window.location.reload();
+        });
+
+      if (deleteChatModal) deleteChatModal.classList.add('hidden');
+      return;
+    }
+
+    const isMoreClick = event.target.closest('.general-chat .options img:last-child') || event.target.closest('.more-icon');
+    if (isMoreClick) {
+      if (window.innerWidth < 768) {
+        if (generalChat) generalChat.style.display = "none";
+        if (rightPanel) rightPanel.style.display = "flex";
+      }
+      return;
+    }
+
+    // 7. Возврат из general-chat в left-panel
+    const exitGeneral = event.target.closest('.general-chat .exit-icon');
+    if (exitGeneral) {
+      if (leftPanel) leftPanel.style.display = "flex";
+      if (generalChat) generalChat.style.display = "none";
+      return;
+    }
+
+    // 8. Возврат из right-panel в general-chat
+    const exitRight = event.target.closest('.right-panel .exit-icon');
+    if (exitRight) {
+      if (rightPanel) rightPanel.style.display = "none";
+      if (generalChat) generalChat.style.display = "flex";
+      return;
+    }
+
+  });
+
+});

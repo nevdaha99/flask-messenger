@@ -9,6 +9,11 @@ class User(DATABASE.Model, flask_login.UserMixin):
     __tablename__ = "user"
     id = DATABASE.Column(DATABASE.Integer, primary_key=True)
     email = DATABASE.Column(DATABASE.String)
+    name = DATABASE.Column(DATABASE.String)
+    surname = DATABASE.Column(DATABASE.String)
+    username = DATABASE.Column(DATABASE.String)
+    gender = DATABASE.Column(DATABASE.String)
+    age = DATABASE.Column(DATABASE.Integer)
     password = DATABASE.Column(DATABASE.String)
     is_active = DATABASE.Column(DATABASE.Boolean)
     verify_code = DATABASE.Column(DATABASE.String)

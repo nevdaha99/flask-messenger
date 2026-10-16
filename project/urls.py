@@ -27,3 +27,11 @@ main.add_url_rule(
 )
 
 main.add_url_rule("/get_messages/", view_func=get_messages)
+
+main.add_url_rule(
+    "/user/update", view_func=update_user_settings, methods=["POST", "GET"]
+)
+
+main.add_url_rule(
+    "/settings/update", view_func=update_settings, methods=["POST", "GET"]
+)

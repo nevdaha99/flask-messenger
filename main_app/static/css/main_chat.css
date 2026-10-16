@@ -829,3 +829,290 @@ body {
 .chat-input-container.hidden {
   display: none !important;
 }
+
+/* цшрущшцйруащшцщарщцурцщарщцщцращшцурацущацращцраущшцруащшащшцураца */
+/* Затемнение фона и центрирование */
+.modal {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Скрытие модального окна */
+.modal.hidden {
+  display: none !important;
+}
+
+/* Карточка модального окна */
+.modal-content {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 440px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Шапка с заголовком и крестиком */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.close-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4b5563;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-icon-btn:hover {
+  color: #111827;
+}
+
+/* Тело модального окна (поле ввода) */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-body label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.modal-body input {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  color: #111827;
+  box-sizing: border-box;
+}
+
+.modal-body input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.modal-body input::placeholder {
+  color: #9ca3af;
+}
+
+/* Низ с кнопками управления */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Кнопка "Скасувати" (белая с рамкой) */
+.btn-cancel {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background-color: #f3f4f6;
+}
+
+/* Кнопка "Створити" (синяя) */
+.btn-submit {
+  background-color: #007aff;
+  border: 1px solid #007aff;
+  color: #ffffff;
+}
+
+.btn-submit:hover {
+  background-color: #0062d2;
+}
+
+
+/* Кнопка "Видалити" (красная или синяя под стиль вашей кнопки «Створити») */
+.btn-delete {
+  background-color: #007aff;
+  border: 1px solid #007aff;
+  color: #ffffff;
+}
+
+.btn-delete:hover {
+  background-color: #0062d2;
+}
+
+.delete-chat-btn,
+.delete-chat-btn:focus,
+.delete-chat-btn:active,
+.delete-chat-btn:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.1s ease;
+
+}
+
+
+
+
+
+
+.settings-modal-content {
+  width: 520px !important;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-group label,
+.settings-row-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Блок аватара и кнопок */
+.profile-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar-circle {
+  width: 56px;
+  height: 56px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid #d1d5db;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #2563eb;
+}
+
+.btn-light-danger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid #f3f4f6;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.btn-light-danger:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.settings-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 4px 0;
+}
+
+.settings-row-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-row-group input,
+.settings-row-group select {
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  color: #111827;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.settings-row-group input:focus,
+.settings-row-group select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+/* Кнопка удаления аккаунта */
+.delete-account-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 0;
+}
+
+.delete-account-row:hover {
+  text-decoration: underline;
+}

@@ -154,3 +154,34 @@ def get_messages():
         )
     DATABASE.session.commit()
     return flask.jsonify(list_messages)
+
+
+@flask_login.login_required
+def update_user_settings():
+    user = flask_login.current_user
+    user.first_name = flask.request.form.get("first_name", user.first_name)
+    user.last_name = flask.request.form.get("last_name", user.last_name)
+    user.username = flask.request.form.get("username", user.username)
+    user.gender = flask.request.form.get("gender", user.gender)
+    user.age = flask.request.form.get("age", user.age)
+    DATABASE.session.commit()
+
+    return "OK", 200
+
+
+@flask_login.login_required
+def update_settings():
+    name = flask.request.form.get("name")
+    surname = flask.request.form.get("surname")
+    username = flask.request.form.get("username")
+    gender = flask.request.form.get("gender")
+    age = flask.request.form.get("age")
+    user = flask_login.current_user
+    user.name = name
+    user.surname = surname
+    user.username = username
+    user.gender = gender
+    user.age = age
+
+    DATABASE.session.commit()
+    return "", 200

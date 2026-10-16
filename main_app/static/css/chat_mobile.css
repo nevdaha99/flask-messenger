@@ -4,6 +4,16 @@
 
 @media (max-width: 1100px) {
 
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+
 
   .general-chat,
   .right-panel {
@@ -34,9 +44,61 @@
 
   .exit-icon {
     display: flex;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
+    margin-right: 20px;
   }
 
+  .login-user-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-user-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-user-container input[type="email"],
+  .login-user-container input[type="password"],
+  .login-user-container button[type="submit"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .login-user-container img.world_it {
+    max-width: 180px;
+    height: auto;
+  }
+
+  .login-user-container img.image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .login-button {
+    right: 18px;
+  }
+
+  .create-user-container {
+    height: 160vw;
+  }
+
+  .modal-content,
+  .settings-modal-content {
+    width: 95% !important;
+    max-width: 400px !important;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
 }
